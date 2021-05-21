@@ -6,7 +6,8 @@
 \usepackage{array}
 \usepackage{shortvrb}
 \usepackage{listings}
-\usepackage[fleqn]{amsmath}
+\usepackage[fleqn]{amsmath,mathtools}
+\usepackage{empheq}
 \usepackage{amsfonts}
 \usepackage{fullpage}
 \usepackage{enumerate}
@@ -41,6 +42,7 @@ pdfpagemode=FullScreen,
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape}
 
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
 \newcommand{\coms}[1]{\textcolor{MidnightBlue}{#1}}
 
 \lstset{
@@ -100,12 +102,14 @@ pdfpagemode=FullScreen,
 \newpage
 %%%%%%%%%%%%%%%%%%%% FIN DE LA ZONE PROTÉGÉE %%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%% RAPPORT %%%%%%%%%%%%%%%
-% Complétez les sections ci-dessous
 
-\section{Formulation Récursive}\label{formulation}
 
-	\subsection{Notations}	
+
+%----------------------------------------Formulation Récursive.----------------------------------------%
+\section{Formulation Récursive.}\label{formulation}
+
+	%----------------------------------------Notations.----------------------------------------%
+	\subsection{Notations.}	
 	
 	$\forall ~ n ~ \in \mathbb{N} ~ , ~ n > 0 $
 	\vspace{2mm}
@@ -119,7 +123,7 @@ pdfpagemode=FullScreen,
 	$\exists ~ l\_position ~ \in ~ \mathbb{N} ~ , ~ l\_position = n - 1$
 	\vspace{2mm}
 	
-	$\exists ~ l\_exposant ~ \in ~ \mathbb{N} , l\_exposant = hexa\_power(l_position);$
+	$\exists ~ l\_exposant ~ \in ~ \mathbb{N} , l\_exposant = hexa\_power(l\_position);$
 	\vspace{2mm}
 	
 	$\exists ~ (l\_convert)_{10} ~ \in ~ \mathbb{N} ~ , ~ (l\_convert)_{10} = convert(hexa[l\_position]) $
@@ -128,19 +132,11 @@ pdfpagemode=FullScreen,
 	$\exists ~ (l\_decimal)_{10} ~ \in ~ \mathbb{N} ~ , ~ (l\_decimal)_{10} = (l\_convert)_{10} * (l\_exposant)_{10}$
 	\vspace{2mm}
 	
-	$
-	l\_size(s) = \left\{
-	\begin{array}{ll}
-    		0 & \mbox{si s = `` `` }  \\
-    		1 + l\_size(cdr(s)) & \mbox{sinon.}
-	\end{array}
-	\right.
-	$
-	
+	%----------------------------------------Peut-on résoudre le problème récursivement ?----------------------------------------%
 	\subsection{Peut-on résoudre le problème récursivement ?}
 	
 		\begin{itemize}
-			\item[$\circ$] Trois questions
+			\item[$\bullet$] Trois questions
 			\begin{enumerate}
 				\item Peut-on trouver un paramètre récursif ?
 				\begin{itemize}
@@ -158,7 +154,7 @@ pdfpagemode=FullScreen,
 		\end{itemize}
 		
 		$
-		(decimal)_{10} = \left\{
+		(l\_decimal)_{10} = \left\{
     	\begin{array}{ll}
         		l\_decimal & \mbox{si n = 1}  \\
         		l\_decimal + hexa\_dec\_rec(l\_nextCase, l\_position) & \mbox{sinon.}
@@ -166,12 +162,13 @@ pdfpagemode=FullScreen,
 		\right.
 		$
 	
+	%----------------------------------------Cas de base.----------------------------------------%
 	\subsection{Cas de base.}\label{cas_base}
 	
 		\begin{itemize}
-			\item[$\circ$] L'expression \fbox{$ n == 1$} est la condition de terminaison.
-			\item[$\circ$] L'instruction \fbox{$return (l\_decimal);$} est le cas de base.
-			\item[$\circ$] L'instruction \fbox{$return (l\_decimal + (hexa\_dec\_rec(l\_nextCase, l\_position)));$} est 
+			\item[$\bullet$] L'expression \fbox{$ n == 1$} est la condition de terminaison.
+			\item[$\bullet$] L'instruction \fbox{$return (l\_decimal);$} est le cas de base.
+			\item[$\bullet$] L'instruction \fbox{$return (l\_decimal + (hexa\_dec\_rec(l\_nextCase, l\_position)));$} est 
 							\\ l’appel récursif.
 			\begin{itemize}
 				\item[$\triangleright$] Puisqu’on dispose d’une invocation de la fonction $\textbf{hexa\_dec\_rec()}$ sur des 
@@ -181,6 +178,7 @@ pdfpagemode=FullScreen,
 			\end{itemize}
 		\end{itemize}
 	
+	%----------------------------------------Cas récursif.----------------------------------------%
 	\subsection{Cas récursif.}\label{cas_recur}
 	
 		Nos cas récursif sont donc $\textbf{l\_position}$ et $\textbf{l\_nextCase}$ car :
@@ -196,20 +194,21 @@ pdfpagemode=FullScreen,
 		\\
 		
 		Mathématiquement, cela donne :
+		\vspace{2mm}
 		
-		$
-		(decimal)_{10} = \left\{
-    	\begin{array}{ll}
-        		l\_decimal & \mbox{si n = 1}  \\
-        		l\_decimal + hexa\_dec\_rec(l\_nextCase, l\_position) & \mbox{sinon.}
-    	\end{array}
-		\right.
-		$
+			$
+			(l\_decimal)_{10} = \left\{
+	    	\begin{array}{ll}
+	        		l\_decimal & \mbox{si n = 1}  \\
+	        		l\_decimal + hexa\_dec\_rec(l\_nextCase, l\_position) & \mbox{sinon.}
+	    	\end{array}
+			\right.
+			$
 		
+%----------------------------------------Spécifications.----------------------------------------%
+\section{Spécifications.}\label{specification}
 
-\section{Spécification}\label{specification}
-%%%%%%%%%%%%%%%%%%%%%%%%%
-
+	\begin{center}
 		\begin{tabular}{|p{17cm}|c}
 			\hline
 			\\
@@ -230,54 +229,54 @@ pdfpagemode=FullScreen,
 			\\
 			\hline
 		\end{tabular}
+	\end{center}
 		
+	\vspace{5mm}
+	
+	\begin{itemize}
+		\item[$\bullet$] PréCondition $\equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} \wedge hexa[0 \ldots  n-1] init \Rightarrow hexa ~ init$
+		
+		\vspace{3mm}
+		\begin{itemize}
+			\item[$\triangleright$] Dans ce cas de figure, ma fonction contient $2$ assert qui sont représenté ci-dessus. 
+						   \\La première condition est que mon String soit différent de null. 
+						   \\Ensuite, il faut que mon `n` soit strictement supérieur à $0$ car dans le cas contraire cela veux 
+						   	 dire que mon String ne contient aucun symbole.
+						   \\hexa doit bien entendu être initialisé. Cette notation est peut-être redondante mais je tiens tout de même à le préciser.					
+		\end{itemize}
 		\vspace{5mm}
 		
+		\item[$\bullet$] PostCondition $\equiv (hexa\_dec\_rec)_{10} = Hexa\_Dec\_Rec(hexa, n) 
+									 \\ \wedge hexa = hexa_0 \wedge n \neq n_0$
+			
+		\vspace{3mm}
 		\begin{itemize}
-			\item[$\circ$] PréCondition $\equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} 
-			\\\wedge (n = \mid \{hexa[0] - hexa[n]\}\mid) \Rightarrow (\{hexa[0],\ldots,hexa[n-1]\} \in \{0, \ldots, 9,A,\ldots,F \} 
-			\\\wedge (hexa[n] = \backslash0))$	
-			
-			\vspace{3mm}
+			\item[$\triangleright$] Le résultat de ce module devra comprendre les certifications suivante : 
 			\begin{itemize}
-				\item[$\triangleright$] Dans ce cas de figure, ma fonction contient 4 assert qui sont représenté ci-dessus. \\
-							   La première condition est que mon String soit différent de null. \\
-							   Ensuite, il faut que mon `n` soit strictement supérieur à 0 car dans le cas contraire cela veux 
-							   dire que mon String ne contient aucun symbole.
-							   Le n doit ensuite être égale à l'amplitude de l'ensemble $\{hexa[0],\ldots, hexa[n]\}$.
-							   Cela implique que l'intervale $\{hexa[0],\ldots, hexa[n-1]\}$ doit être compris dans les symboles 
-							   de l'hexadécimal et le symbole à la position $hexa[n]$ devra être égale à $'\backslash0'$ 						
-			\end{itemize}
-			\vspace{5mm}
-			
-			\item[$\circ$] PostCondition $\equiv N = \sum_{i=0}^{n-1} a_i \times b^i , a_i \in \{0,1,\ldots,b-1\} \wedge N \in (\mathbb{N})_{16}$
-				
-			\vspace{3mm}
-			\begin{itemize}
-				\item[] Un système de numération d’un nombre naturel N est constitué
-				\begin{enumerate}
-					\item D'une base b $\in \mathbb{N} , (b > 1)$ 
-					\item D'un ensemble de b symboles, appelés $chiffres$, compris entre $0$ et $b-1$.
-				\end{enumerate}						
-				\item[] La représentation d'un naturel N via le système de numération repose sur la structure ci-dessus
-				\item[$\triangleright$] $b = 16$ et l'ensemble des symboles est $\{0,1;\ldots,9,A,\ldots,F\}$  
-			\end{itemize}
+				\item[$\star$] $hexa = hexa_0$ Ne signifie seulement que le String n'a pas changer.
+							   \\ Cependant, nous déplaçons le pointeur sur le String.
+				\item[$\star$] $n \neq n_0$ Dans ce cas de figure, nous ne modifions pas la taille du String mais nous décrémentons la valeur de $n$ pour
+					  pouvoir parcourir hexa de la position $0$ à la position $n-1$ .
+			\end{itemize} 				
 		\end{itemize}
+	\end{itemize}
 		
-		\begin{lstlisting}[caption={Spécification}]
+% Spécification %
+	\begin{lstlisting}[caption={Spécification}]
 /*
- * PréCondition (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 $}<)
- *  (>\coms{$              \wedge (n = \mid \{hexa[0] - hexa[n]\}\mid) \Rightarrow (\{hexa[0],\ldots,hexa[n-1]\} \in \{0, \ldots, 9,A,\ldots,F \} $}<) 
- *  (>\coms{$              \wedge (hexa[n] = \backslash0))  $}<)
- * PostCondition (>\coms{$\equiv hexa\_dec\_rec = Hexa\_Dec\_Rec(hexa, n)
-\land hexa = hexa_0 \land n = n_0 $}<)
+ * PréCondition   (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} \wedge hexa[0 \ldots  n-1] init \wedge hexa[0 \ldots  n-1] init  $}<) 
+ * 				  (>\coms{$  \Rightarrow hexa ~ init																								  $}<) 
+ * 
+ * PostCondition  (>\coms{$  \equiv (hexa\_dec\_rec)_{10} = Hexa\_Dec\_Rec(hexa, n)  \wedge hexa = hexa_0 \wedge n \neq n_0							  $}<)
  */
 unsigned int hexa_dec_rec(char *hexa, int n);
-		\end{lstlisting}
 
+	\end{lstlisting}
 
 \newpage
-\section{Construction Récursive}\label{recur}
+
+%----------------------------------------Construction Récursive.----------------------------------------%
+\section{Construction Récursive.}\label{recur}
 
 	Vu que notre fonction $\textbf{hexa\_dec\_rec()}$ est une fonction récursive qui s'appuie sur une structure conditionnelle, 
 	alors il nous faut une approche constructive en trois étapes
@@ -288,7 +287,8 @@ unsigned int hexa_dec_rec(char *hexa, int n);
 		\item Cas récursif.
 	\end{enumerate} 
 	
-	\subsection{Programmation défensive}
+	%----------------------------------------Programmation défensive.----------------------------------------%
+	\subsection{Programmation défensive.}
 	
 		Il s'agit d'une vérification de la PréCondition.
 
@@ -298,101 +298,24 @@ unsigned int hexa_dec_rec(char *hexa, int n) {
 	assert(hexa);
 	assert(n > 0);
 
-	unsigned int l_size;
-	unsigned int l_convert;
-
-	l_size = size_char(hexa);
-	l_convert = convert(hexa[0]);
-
-	assert(n == l_size);
-	assert(l_convert != -1);
-
-    /* PréCondition (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 $}<)
-    (>\coms{$                  \wedge (n = \mid \{hexa[0] - hexa[n]\}\mid) \Rightarrow (\{hexa[0],\ldots,hexa[n-1]\} \in \{0, \ldots, 9,A,\ldots,F \} $}<) 
-    (>\coms{$ 				   \wedge (hexa[n] = \backslash0))  $}<) */ 
+    /* PréCondition (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} ~\wedge~ hexa[0 \ldots  n-1] init ~\wedge~ hexa[0 \ldots  n-1] init 	$}<)
+					(>\coms{$  \Rightarrow hexa ~ init 																										$}<) */
 	
 	... /* Reste du code */
 }
-		\end{lstlisting}
 
-\newpage
-		
-% size_char %
-		\begin{lstlisting}[caption={size\_char()}]
-static unsigned int size_char(char *p_hexa) {
-
-	unsigned int i;
-	i = 0;
-
-	while (p_hexa[i])
-		i++;
-
-	return (i);
-}
 		\end{lstlisting}
 		
-Cette fonction statique permet de Vérifiez toute position du String $p\_hexa$ 
-\\ en incrémentant $i$ pour chaque valeur du String $\neq$ '\textbackslash$0$'
-		
-\begin{table}[!h]
-\begin{tabular}{llllllll}
-\multicolumn{1}{l|}{}        & 0                        & \multicolumn{1}{l|}{      }          & i                         & \multicolumn{1}{l|}{      }            & '\textbackslash{}0' &  &  \\ \cline{2-5}
-\multicolumn{1}{l|}{p\_hexa} & \multicolumn{2}{l|}{\cellcolor[HTML]{FD6864}Déjà vérifié}       & \multicolumn{2}{l|}{\cellcolor[HTML]{38FFF8}Reste à vérifié}       &                     &  &  \\ \cline{2-5}
-                             & \multicolumn{2}{l}{Incrémente i}                                &                           &                                        &                     &  &
-\end{tabular}
-\end{table}
-
-% convert %
-		\begin{lstlisting}[caption={convert()}]
-static unsigned int convert(char hex) {
-	switch (hex) {
-	case '0':
-		return (0);
-	case '1':
-		return (1);
-	case '2':
-		return (2);
-	case '3':
-		return (3);
-	case '4':
-		return (4); 
-	case '5':
-		return (5); 
-	case '6':
-		return (6); 
-	case '7':
-		return (7);
-	case '8':
-		return (8); 
-	case '9':
-		return (9);
-	case 'A':
-		return (10); 
-	case 'B':
-		return (11);
-	case 'C':
-		return (12);
-	case 'D':
-		return (13);
-	case 'E':
-		return (14);
-	case 'F':
-		return (15); 
-	}
-	return (-1);
-}
-		\end{lstlisting}
-		
-	\subsection{Cas de base}\label{cas_base_code}
+	%----------------------------------------Cas de base.----------------------------------------%
+	\subsection{Cas de base.}\label{cas_base_code}
 	
 	
 	On gère le cas de base où $n = 1$. Juste avant, on gère les cas précis de la préconditon$^{\ref{specification}}$
 	
+% Cas de base %
 		\begin{lstlisting}[caption={Cas de base}]
-	
-	/* PréCondition (>\coms{$ \equiv (hexa \neq NULL) \wedge n > 0 $}<) 
-	 (>\coms{$                \wedge (n = \mid \{hexa[0] - hexa[n]\}\mid) \Rightarrow (\{hexa[0],\ldots,hexa[n-1]\} \in \{0, \ldots, 9,A,\ldots,F\} $}<)  
-     (>\coms{$      	      \wedge (hexa[n] = \backslash0)) $}<) */
+	/* PréCondition (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} ~\wedge~ hexa[0 \ldots  n-1] init ~\wedge~ hexa[0 \ldots  n-1] init  $}<)
+	 				(>\coms{$  \Rightarrow hexa ~ init																										$}<) */
 
 	if (n == 1)
 		/* (>\coms{$ \{n = 1 \Rightarrow hexa \neq NULL\} $}<) */
@@ -402,15 +325,15 @@ static unsigned int convert(char hex) {
 
 		\end{lstlisting}
 				
-	\subsection{Cas récursif}
+	%----------------------------------------Cas récursif.----------------------------------------%
+	\subsection{Cas récursif.}
 	
 		On gère le cas de base où $n > 1$. Juste avant, on gère les cas précis du cas de base $^{\ref{cas_base_code}}$ et de la précondition$^{\ref{specification}}$
-	
+
+% Cas récursif %
 		\begin{lstlisting}[caption={Cas récursif}]
-	
-	/* PréCondition (>\coms{$ \equiv (hexa \neq NULL) \wedge n > 0 $}<) 
-	 (>\coms{$                \wedge (n = \mid \{hexa[0] - hexa[n]\}\mid) \Rightarrow (\{hexa[0],\ldots,hexa[n-1]\} \in \{0, \ldots, 9,A,\ldots,F\} $}<)  
-     (>\coms{$      	      \wedge (hexa[n] = \backslash0)) $}<) */
+	/* PréCondition (>\coms{$ \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} ~\wedge~ hexa[0 \ldots  n-1] init ~\wedge~ hexa[0 \ldots  n-1] init 	$}<)
+	 	  		    (>\coms{$ \Rightarrow hexa ~ init 																										$}<) */
 
 	/* (>\coms{$ \{n > 1 \Rightarrow hexa \neq NULL\} $}<) */
 	return (l_decimal + (hexa_dec_rec(l_nextCase, l_position)));
@@ -419,76 +342,489 @@ static unsigned int convert(char hex) {
 
 		\end{lstlisting}
 
-\section{Traces d'Exécution}\label{traces}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%----------------------------------------Traces d'Exécution----------------------------------------%
+\section{Traces d'Exécution.}\label{traces}
 
-% Fournissez et discutez ici les traces d'exécution de la fonction romain_rec()
-% pour les exemples donnés dans l'énoncé
-% 
-% 
-% L'exemple ci-dessous donne une trace d'exécution pour un exercice sur les
-% Piles (cfr. GameCodes associés).  Inspirez-vous du code LaTeX pour produire
-% vos traces d'exécution.
-\begin{tabular}{|c|}
-\\
-\\
-\textcolor{white}{--}\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-\\
-\\
-20\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-\\
-4\\
-20\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-\\
-\\
-80\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-\\
-9\\
-80\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-7\\
-9\\
-80\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-\\
-16\\
-80\\
-\hline
-\end{tabular}~~
-\begin{tabular}{|c|}
-\\
-\\
-5\\
-\hline
-\end{tabular}
+	Soit l'exemple $\textbf{hexa\_dec\_rec(char *hexa, int n)}$ noté $\textbf{f(s,n)}$ 
+	\\ On doit indiquer la trace de l’algorithme, sur la Pile, pour la récursivité suivante :  
+	\\ $\textbf{l\_decimal + (hexa\_dec\_rec(l\_nextCase, l\_position))}$
+	\\ Ce qui donne l'expression sous forme postfixée : $\textbf{f(s,n) f(s1+,n1-)+}$
+	\\
 
-\section{Complexité}\label{complexite}
+	\begin{itemize}
+		
+% FIRST ITEM %
+		\item[$\bullet$] Soit l'exemple $\textbf{f('27', 2)}$
+		\\
+	
+		\begin{center}
+			\begin{tabular}{|c|}
+				\\
+				\\
+				\textcolor{white}{--}\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				\\
+				32\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				f(7,1)\\
+				32\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				7\\
+				32\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				\\
+				39\\
+				\hline
+			\end{tabular}~
+		\end{center}
+		
+		\vspace{5mm}
+% SECOND ITEM %
+		\item[$\bullet$]Soit l'exemple $\textbf{f('A23', 3)}$
+		\\
+		
+		\begin{center}
+		
+			\begin{tabular}{|c|}
+				\\
+				\\
+				\textcolor{white}{--}\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				\\
+				2560\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				f(23,2)\\
+				2560\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				f(3,1)\\
+				f(23,2)\\
+				2560\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				3\\
+				f(23,2)\\
+				2560\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				3\\
+				32\\
+				2560\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				35\\
+				2560\\
+				\hline
+			\end{tabular}~
+			\begin{tabular}{|c|}
+				\\
+				\\
+				2595\\
+				\hline
+			\end{tabular}~
+		\end{center}
+				
+		\vspace{5mm}
+% THIRD ITEM %
+		\item[$\bullet$] Soit l'exemple $\textbf{f('A78E', 4)}$
+	\end{itemize}
+	
+	\begin{center}
+	
+		\begin{tabular}{|c|}
+			\\
+			\\
+			\\
+			\textcolor{white}{--}\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			\\
+			\\
+			\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			\\
+			\\
+			f(78E,3)\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			\\
+			f(8E,2)\\
+			f(78E,3)\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			f(E,1)\\
+			f(8E,2)\\
+			f(78E,3)\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			14\\
+			f(8E,2)\\
+			f(78E,3)\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			14\\
+			128\\
+			f(78E,3)\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			14\\
+			128\\
+			1792\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			\\
+			142\\
+			1792\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			\\
+			\\
+			1934\\
+			40960\\
+			\hline
+		\end{tabular}~
+		\begin{tabular}{|c|}
+			\\
+			\\
+			\\
+			42894\\
+			\hline
+		\end{tabular}~
+	\end{center}
+	
+	\newpage
+		
+%----------------------------------------Complexité.----------------------------------------%
+\section{Complexité.}\label{complexite}
 
+% hexa_dec_rec() %
+		\begin{lstlisting}[caption={hexa\_dec\_rec()}]
+/**
+ * @fn unsigned int hexa_dec_rec(char*, int)
+ * @brief Convertir un nombre hexadécimal en nombre décimal
+ *
+ * @pre (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} ~\wedge~ hexa[0 \ldots  n-1] init ~\wedge~ hexa[0 \ldots  n-1] init $}<)
+ * 		(>\coms{$  \Rightarrow hexa ~ init	$}<)
+ * @post (>\coms{$ \equiv (hexa\_dec\_rec)_{10} = Hexa\_Dec\_Rec(hexa, n)  \wedge hexa = hexa_0 \wedge n \neq n_0	$}<)
+ * @param hexa, le nombre hexadécimal
+ * @param n, le nombre de symboles dans le nombre hexadécimal
+ * @return la représentation décimale du nombre hexadécimal.
+ */
+unsigned int hexa_dec_rec(char *hexa, int n) {
+	assert(hexa);
+	assert(n > 0);
 
-\section{Dérécursification}\label{derecur}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Fournissez et discutez ici la dérécursification de la fonction hexa_dec_rec()
-% Attention, il n'est pas question ici de fournir un algorithme itératif mais
-% bien d'éliminer la récursivité comme cela a été vu au cours.
-% La solution doit être proposée en utilisant le pseudo-code vu au cours (et
-% dans les GameCodes du Chapitre 9).
-%
+	char *l_nextCase;
+	unsigned int l_convert;
+	unsigned int l_position;
+	unsigned int l_decimal;
+	unsigned int l_exposant;
 
+	l_position = n - 1;
+	l_nextCase = hexa + 1;
+	l_convert = convert(*hexa);
+	l_exposant = hexa_power(l_position);
+	l_decimal = l_convert * l_exposant;
+
+	if (n == 1)
+		return (l_decimal);
+
+	return (l_decimal + (hexa_dec_rec(l_nextCase, l_position)));
+}
+
+		\end{lstlisting}
+
+% T(a) %
+		\begin{lstlisting}[caption={T(a)}]
+	l_position = n - 1;							//											
+	l_nextCase = hexa + 1;						//					
+	l_convert = convert(*hexa);				//	T(a)				
+	l_exposant = hexa_power(l_position);	//			
+	l_decimal = l_convert * l_exposant;		//
+	
+		\end{lstlisting}
+
+% T(a') %
+		\begin{lstlisting}[caption={T(a')}]
+	if (n == 1)							//	T(a')											
+		return (l_decimal);			//
+		
+		\end{lstlisting}
+
+% T(s+1,n+1) %
+		\begin{lstlisting}[caption={T(s+1,n+1)}]
+	return (l_decimal + (hexa_dec_rec(l_nextCase, l_position))); // T(s+1,n+1)
+	
+		\end{lstlisting}
+		
+\newpage
+
+	Soit $T_{(n)}$, le coût d’un appel à $hexa\_dec\_rec(s, n)$.
+	\\En ce qui concerne le cas de base, on va dire qu’il prend $T_{(a)}$ opérations, $T_{(a)}$ étant constant. 
+	\\Pour ce qui est du cas récursif, il prend également $T_{(a)}$ opérations ainsi que le nombre d’opérations 
+	\\ nécessaires par l’appel récursif, c'est-à-dire $T_{(s + 1 , n - 1)}$. Il vient donc le sustème suivant :
+	\\
+	
+	$
+	T_{(n)} = \left\{
+    \begin{array}{ll}
+        	T_{(a)} + T_{(a')} & \mbox{si n = 1}  \\
+        	T_{(a)} + T_{(s + 1 , n-1)} & \mbox{sinon.}
+    \end{array}
+	\right.
+	$
+	\\
+	
+	L'élimination de proche en proche consiste à réécrire plusieurs fois cette équation en utilisant le cas
+	récursif afin de faire apparaitre un motif reconnaissable.
+	\\
+	
+	\begin{empheq}[box=\fbox]{align*}
+		T_{(n)} &= T_{(a)} + T_{(s + 1 , n - 1)} \\
+				&= T_{(a)} + T_{(a)} + T_{(s + 2 , n - 2)} \\
+				&= T_{(a)} + T_{(a)} + T_{(s + 2 , n - 2)} \\
+				&= 2T_{(a)} + T_{(s + 2 , n - 2)} \\
+				&= 3T_{(a)} + T_{(s + 3 , n - 3)} \\
+				&= \ldots \\
+				&= k \times T_{(a)} + T_{(s + k , n - k)}
+	\end{empheq}
+	
+
+	
+	$T_{(n - k)}$ est une formulation tout à fait générale du temps d'exécution du $k^e$ appel récursif. On ne connait 
+	qu'une valeur particulière de $T_{(\cdot)}$ : $T_{(1)} = 0$. On va donc essayer de faire apparaitre cette valeur particulière.
+	On a :
+	
+	\begin{empheq}[box=\fbox]{align*}
+		n - k &= 1 \\
+		-k &= 1 - n \\
+		k &= n - 1
+	\end{empheq}
+		
+	On insère cette valeur dans $k \times T_{(a)} + T_{(s + k , n - k)}$ , et il vient: \\
+	
+	\fbox{$T_{(n)} = (n - 1) \times T_{(a)} + T_{(s + (n - 1))} \in \mathcal{O}_{(n)}$}
+	\\
+	
+	Nous avons donc une complexité d’ordre Linéaire.
+
+%----------------------------------------Dérécursification.----------------------------------------%
+\section{Dérécursification.}\label{derecur}
+
+	%----------------------------------------Algorithme de transformation non-terminale.----------------------------------------%
+	\subsection{Algorithme de transformation non-terminale.}
+		Voici les étapes à suivre pour transformer une fonction récursive non-terminale en une fonction récursive
+		terminale :
+		
+		\begin{enumerate}
+			
+			\item Vérifier que l'opérateur $\alpha$ est commutative et associative.
+				\begin{itemize}
+					\item[$\bullet$] commutatif
+					\begin{itemize}
+						\item[$\triangleright$] $x + y = y + x $
+					\end{itemize}
+										
+					\item[$\bullet$] associatif
+					\begin{itemize}
+						\item[$\triangleright$] $x + (y + z) = (x + y) + z$
+					\end{itemize}
+				\end{itemize}
+				
+				
+			\item Créer une fonction $\lambda$ pour transformer la récursivité non-terminale en récursivité terminale, avec plus
+				  de paramètres (dont un (ou plusieurs) accumulateur·s).
+				  
+% lambda\_1 %
+				\begin{lstlisting}[caption={lambda\_1}]
+(>{$ \lambda $}<)(String h, int n, int nAccu):
+
+				\end{lstlisting}
+			
+			
+			\item Déterminer les paramètres effectifs de $\lambda$ : la fonction qui appelle $\lambda$ lui passe ses paramètres et initalise
+					les accumulateurs;
+
+% lambda\_2 %		
+				\begin{lstlisting}[caption={lambda\_2}]
+(>{$ \lambda $}<)(String h, int n, int nAccu):
+		c;
+		e;
+		a;
+		d;
+		
+				\end{lstlisting}
+					
+					
+			\item Écrire le corps de la fonction $\lambda$ :
+				\begin{itemize}
+					\item[$\bullet$] Les résultat à renvoyer lors du cas de base dépend maintenant de l'(des) accumulateur·s;
+					\item[$\bullet$] Les opérations intermédiaires sont maintenant effectuées sur l'(les) accumulateur·s.
+				\end{itemize}
+
+% lambda\_3 %	
+			\begin{lstlisting}[caption={lambda\_3}]
+(>{$ \lambda $}<)(String h, int n, int nAccu):
+				 
+		c (>{$ \leftarrow $}<) convert(h[0]);
+		e (>{$ \leftarrow $}<) hexa_power(nAccu - 1);
+		a (>{$ \leftarrow $}<) c * e;
+		
+		if( n = 1)
+			then 
+				d (>{$ \leftarrow $}<) c;
+			else
+				d (>{$ \leftarrow $}<) (>{$ \lambda $}<)( h+1, n-1, a);
+		
+			\end{lstlisting}
+				
+					Les conditions de terminaisons et des différents cas récursifs ne changent pas.
+					\\ Ensuite, il faut dérécursiver $\lambda$ en se référant aux étapes de \hyperref[terminale]{l'algorithme de transformation terminale}.
+		\end{enumerate}	
+		
+		
+		
+		
+	%----------------------------------------Algorithme de transformation terminale.----------------------------------------%
+	\subsection{Algorithme de transformation terminale.}\label{terminale}
+	
+		\begin{enumerate}
+			\item Commencer la définition d'une fonction ayant les mêmes paramètres formels, 
+					\\PRÉCONDITION et POSTCONDITION que le fonction d'origine.
+					
+% terminale\_1 %	
+			\begin{lstlisting}[caption={terminale\_1}]
+/*
+ * PréCondition   (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} \wedge hexa[0 \ldots  n-1] init \wedge hexa[0 \ldots  n-1] init  $}<) 
+ * 				  (>\coms{$  \Rightarrow hexa ~ init																								  $}<) 
+ * 
+ * PostCondition  (>\coms{$  \equiv (hexa\_dec\_rec)_{10} = Hexa\_Dec\_Rec(hexa, n)  \wedge hexa = hexa_0 \wedge n \neq n_0							  $}<)
+ */
+f(>{$'$}<)(String hexa, int n):
+
+			\end{lstlisting}
+			
+\newpage
+			\item Pour chaque variable, introduire une nouvelle variable synonyme.
+		
+% terminale\_2 %	
+			\begin{lstlisting}[caption={terminale\_2}]
+f(>{$'$}<)(String hexa, int n):
+
+	m (>{$ \leftarrow $}<) n;
+	g (>{$ \leftarrow $}<) hexa;
+	a (>{$ \leftarrow $}<) 0;
+
+			\end{lstlisting}
+			
+			\item Commencer la rédaction de la boucle $\textbf{until}$ en prenant comme Critère d'Arrêt, 
+					\\la condition terminaison. Dans la condition, il faut évidemment remplacer les variables par leurs synonymes.
+
+% terminale\_3 %				
+			\begin{lstlisting}[caption={terminale\_3}]
+f(>{$'$}<)(String hexa, int n):
+
+	m (>{$ \leftarrow $}<) n;
+	g (>{$ \leftarrow $}<) hexa;
+	a (>{$ \leftarrow $}<) 0;
+	
+	until m = 1 do
+
+	end
+			\end{lstlisting}
+			
+			\item On poursuit par l'écriture du Corps de la Boucle. On recopie les opérations faites sur les variables avant l'appel récursif 
+					avec les synonymes des variables.
+					
+			\item On finit le Corps de la Boucle par les instructions de progression. En identifiant, dans l'appel récursif les modifications qui sont effectuées
+					sur chaque variables lors de l'appel et les recopier en fin de boucle.
+					
+% terminale\_4 %					
+			\begin{lstlisting}[caption={terminale\_4}]
+f(>{$'$}<)(String hexa, int n):
+
+	m (>{$ \leftarrow $}<) n;
+	g (>{$ \leftarrow $}<) hexa;
+	a (>{$ \leftarrow $}<) 0;
+	
+	until m = 1 do
+		g (>{$ \leftarrow $}<) g + 1;
+		c (>{$ \leftarrow $}<) convert(g[0]);
+		m (>{$ \leftarrow $}<) m - 1;
+		e (>{$ \leftarrow $}<) hexa_power(m);
+	end
+
+			\end{lstlisting} 
+
+\newpage
+
+			\item Après la boucle, on retourne la valeur calculée par les opérations faites dans le cas de base de la fonction récursive.
+					Sans oublier le changement de variables par les synonymes.
+
+% terminale\_5 %
+			\begin{lstlisting}[caption={fonction non récursive}]
+/*
+ * PréCondition   (>\coms{$  \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} \wedge hexa[0 \ldots  n-1] init \wedge hexa[0 \ldots  n-1] init  $}<) 
+ * 				  (>\coms{$  \Rightarrow hexa ~ init																								  $}<) 
+ * 
+ * PostCondition  (>\coms{$  \equiv (hexa\_dec\_rec)_{10} = Hexa\_Dec\_Rec(hexa, n)  \wedge hexa = hexa_0 \wedge n \neq n_0							  $}<)
+ */
+f(>{$'$}<)(String hexa, int n):
+
+	m (>{$ \leftarrow $}<) n;
+	g (>{$ \leftarrow $}<) hexa;
+	a (>{$ \leftarrow $}<) 0;
+	
+	until m = 1 do
+		g (>{$ \leftarrow $}<) g + 1;
+		c (>{$ \leftarrow $}<) convert(g[0]);
+		e (>{$ \leftarrow $}<) hexa_power(m - 1);
+		m (>{$ \leftarrow $}<) m - 1;
+	end
+	r (>{$ \leftarrow $}<) convert(g[0]);
+
+			\end{lstlisting}
+		\end{enumerate}
+		
 \end{document}

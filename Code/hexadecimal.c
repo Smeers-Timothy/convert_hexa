@@ -87,33 +87,11 @@ static unsigned int hexa_power(unsigned int p_exp) {
 }
 
 /**
- * @fn unsigned int size_char(char*)
- * @brief Permet de trouvé la taille d'un string
- *
- * @pre /
- * @post /
- * @param p_hexa le string dont il faut trouver son nombre de charactère
- * @return unsigned int i la taille du string
- */
-static unsigned int size_char(char *p_hexa) {
-
-	unsigned int i;
-	i = 0;
-
-	while (p_hexa[i])
-		i++;
-
-	return (i);
-}
-
-/**
  * @fn unsigned int hexa_dec_rec(char*, int)
  * @brief Convertir un nombre hexadécimal en nombre décimal
  *
- * @pre @f$ \equiv (hexa != NULL) \wedge n > 0 , n \in \mathbb{N}
- \\ \wedge (n = \mid \{hexa[0] - hexa[n]\}\mid) \Rightarrow (\{hexa[0],\ldots,hexa[n-1]\} \in \{0, \ldots, 9,A,\ldots,F \}
- \\ \wedge (hexa[n] = \backslash0)) @f$
- * @post @f$\equiv N = \sum_{i=0}^{n-1} a_i \times b^i , a_i \in \{0,1,\ldots,b-1\} \wedge N \in (\mathbb{N})_{10} @f$
+ * @pre @f$ \equiv (hexa \neq NULL) \wedge n > 0 , n \in \mathbb{N} ~\wedge~ hexa[0 \ldots  n-1] init ~\wedge~ hexa[0 \ldots  n-1] init \Rightarrow hexa ~ init @f$
+ * @post @f$ \equiv (hexa\_dec\_rec)_{10} = Hexa\_Dec\_Rec(hexa, n)  \wedge hexa = hexa_0 \wedge n \neq n_0	 @f$
  * @param hexa, le nombre hexadécimal
  * @param n, le nombre de symboles dans le nombre hexadécimal
  * @return la représentation décimale du nombre hexadécimal.
@@ -122,31 +100,20 @@ unsigned int hexa_dec_rec(char *hexa, int n) {
 	assert(hexa);
 	assert(n > 0);
 
-	unsigned int l_size;
+	char *l_nextCase;
 	unsigned int l_convert;
-
-	l_size = size_char(hexa);
-	l_convert = convert(hexa[0]);
-
-	assert(n == l_size);
-	assert(l_convert != -1);
-
 	unsigned int l_position;
 	unsigned int l_decimal;
 	unsigned int l_exposant;
-	char *l_nextCase;
 
 	l_position = n - 1;
 	l_nextCase = hexa + 1;
+	l_convert = convert(*hexa);
 	l_exposant = hexa_power(l_position);
 	l_decimal = l_convert * l_exposant;
-//	printf("l_convert : %d\n", l_convert);
-//	printf("l_exposant : %d\n", l_exposant);
-//	printf("l_decimal : %d\n", l_decimal);
 
 	if (n == 1)
 		return (l_decimal);
-	print_stack_trace();
-	return (l_decimal + (hexa_dec_rec(l_nextCase, l_position)));
 
+	return (l_decimal + (hexa_dec_rec(l_nextCase, l_position)));
 }

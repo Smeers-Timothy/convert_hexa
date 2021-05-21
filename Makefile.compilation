@@ -3,7 +3,7 @@ LD=gcc
 CFLAGS=--std=c99 --pedantic -Wall -Wextra -Wmissing-prototypes
 LDFLAGS=
 LATEX=pdflatex
-BINARY=main-romain
+BINARY=main-hexadecimal
 TAR=tar
-TARNAME=sxxxxxx.tar.gz
-RAPPORTSOURCE=rapport_XXXXXX
+TARNAME=S200930.tar.gz
+RAPPORTSOURCE=rapport_S200930
